@@ -1,5 +1,5 @@
 (function () {
-  var SURVEY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx1hdlpUxjZKSPUw_PtQ4jZoWnpkaMS1AbwHtkTVSaOTP6OJQZ4s07woWp5JND64LGUkA/exec';
+  var SURVEY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwt2GE10zRvpmzhmCcYi4kZSyhwhW1veaYnm4lNpmyY1VlDz-9Yc-M3Mb4FiwCnU2gPzw/exec';
 
   var modal = document.getElementById('cta-modal');
   var modalCard = modal.querySelector('.modal-card');
