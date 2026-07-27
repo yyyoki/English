@@ -1,10 +1,13 @@
 (function () {
+  var SURVEY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx1hdlpUxjZKSPUw_PtQ4jZoWnpkaMS1AbwHtkTVSaOTP6OJQZ4s07woWp5JND64LGUkA/exec';
+
   var modal = document.getElementById('cta-modal');
   var modalCard = modal.querySelector('.modal-card');
   var screenSurvey = document.getElementById('screen-survey');
   var screenLine = document.getElementById('screen-line');
   var surveyForm = document.getElementById('survey-form');
   var surveyError = document.getElementById('survey-error');
+  var surveySubmit = surveyForm.querySelector('button[type="submit"]');
   var lineHeading = document.getElementById('line-heading');
   var openTriggers = document.querySelectorAll('[data-cta-open]');
   var closeTriggers = modal.querySelectorAll('[data-cta-close]');
@@ -23,6 +26,7 @@
     document.body.style.overflow = 'hidden';
     surveyForm.reset();
     surveyError.hidden = true;
+    surveySubmit.disabled = false;
     showScreen(screenSurvey);
     modalCard.focus();
     document.addEventListener('keydown', onKeydown);
@@ -90,7 +94,24 @@
     }
 
     surveyError.hidden = true;
-    showScreen(screenLine);
-    lineHeading.focus();
+    surveySubmit.disabled = true;
+
+    fetch(SURVEY_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify({
+        q1: q1Answered.value,
+        q2: q2Answered.value
+      })
+    }).catch(function () {
+      // no-cors: レスポンス内容は検証できないため、送信の成否に関わらず次の画面へ進む
+    }).finally(function () {
+      surveySubmit.disabled = false;
+      showScreen(screenLine);
+      lineHeading.focus();
+    });
   });
 })();
